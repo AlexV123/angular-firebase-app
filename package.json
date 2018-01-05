@@ -38,8 +38,8 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
     "angularfire2": "^5.0.0-rc.4",
+    "firebase": "4.8.0",
     "codelyzer": "^4.0.2",
-    "firebase": "^4.8.1",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",
@@ -50,7 +50,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.1.2",
     "rxjs": "^5.5.6",
-    "ts-node": "~3.2.0",
+    "ts-node": "^3.2.2",
     "tslint": "^5.8.0",
     "typescript": "^2.5.3"
   }
