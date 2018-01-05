@@ -19,12 +19,12 @@ dbData.courses.forEach( course => {
   console.log('adding course', course.url);
 
   const courseRef = coursesRef.push({
-      url: course.url,
-      description: course.description,
-      iconUrl: course.iconUrl,
-      courseListIcon: course.courseListIcon,
-      longDescription: course.longDescription
-  });
+        url: course.url,
+        description: course.description,
+        iconUrl: course.iconUrl,
+        courseListIcon: course.courseListIcon,
+        longDescription: course.longDescription
+    });
 
   let lessonKeysPerCourse = [];
 

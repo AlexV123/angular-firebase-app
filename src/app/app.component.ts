@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import * as firebase from 'firebase';
+import { AngularFireDatabase, AngularFireList, AngularFireObject} from "angularfire2/database";
+import { FirebaseListObservable } from "angularfire2/database-deprecated";
 
 @Component({
   selector: 'app-root',
@@ -7,25 +8,48 @@ import * as firebase from 'firebase';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
 
-  constructor() {
+  courses:AngularFireList<any>;
+  lesson:AngularFireObject;
+  courses$:FirebaseListObservable<any>;
+  lesson$:FirebaseListObservable<any>;
 
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyB-vAoSOXGPGqW_hZBNtYb3Qbtqc05FynY",
-      authDomain: "angular-firebase-app-f846b.firebaseapp.com",
-      databaseURL: "https://angular-firebase-app-f846b.firebaseio.com",
-      projectId: "angular-firebase-app-f846b",
-      storageBucket: "angular-firebase-app-f846b.appspot.com",
-      messagingSenderId: "1033756615151"
-    };
-    firebase.initializeApp(config);
+  constructor(private afDb: AngularFireDatabase) {
 
-    var root = firebase.database().ref();
-    root.on('value', function (snap) {
-      console.log(snap.key, snap.val());
+    this.courses = afDb.list('courses');
+    this.courses$ = this.courses.snapshotChanges();
+    this.courses$.subscribe(val => console.log(val));
+
+    this.lesson = afDb.object('lessons/-L26q0chf9cK7Tw9MvG3');
+    this.lesson$ = this.lesson.snapshotChanges();
+    this.lesson$.subscribe(val => console.log(val));
+
+  }
+
+  listPush() {
+    let pushPromise = new Promise(() => {
+      this.courses.push({
+        description: 'TEST NEW COURSE'
+      })
     });
+    pushPromise.then(
+        () => console.log('Push successful!')
+    )
+  }
+
+  listRemove() {
+
+  }
+
+  listUpdate() {
+
+  }
+
+  objUpdate() {
+
+  }
+
+  objSet() {
 
   }
 }
