@@ -8,47 +8,53 @@ import { AngularFireDatabase, AngularFireList, AngularFireObject} from "angularf
 })
 export class AppComponent {
 
-  firebaseCoursesKeys = [];
+  firebaseCourses = [];
+  lastFirebaseCourseKey = '';
   courses: AngularFireList<any>;
   lesson: AngularFireObject<any>;
 
   constructor(private afDb: AngularFireDatabase) {
 
     this.courses = afDb.list('courses');
-    // this.courses.snapshotChanges().subscribe(val => console.log(val));
+    this.courses.snapshotChanges().subscribe(val =>  {
+        this.firebaseCourses = val;
+        this.lastFirebaseCourseKey = this.firebaseCourses[this.firebaseCourses.length - 1].key;
+        console.log(this.firebaseCourses);
+    });
 
     this.lesson = afDb.object('lessons/-L26q0chf9cK7Tw9MvG3');
-    this.lesson.snapshotChanges().subscribe(val => console.log(val));
 
   }
 
-  listPush() {
-      this.courses.push({
+  pushCourse() {
+    this.courses.push({
         description: 'TEST NEW COURSE'
-      });
-      this.courses.snapshotChanges(['child_added'])
-          .subscribe(childrenAdded => {
-            const lastChildAddedKey = childrenAdded.slice(-1)[0].key;
-            if (this.firebaseCoursesKeys.indexOf(lastChildAddedKey) == -1) {
-              this.firebaseCoursesKeys.push(lastChildAddedKey);
-            }
-          });
+    });
   };
 
-  listRemove() {
-    this.courses.remove(this.firebaseCoursesKeys[this.firebaseCoursesKeys.length - 1]);
-    this.courses.snapshotChanges(['child_removed']).subscribe(val => console.log('Remove successful!'));
+  removeCourse() {
+    this.courses.remove(this.lastFirebaseCourseKey);
   }
 
-  listUpdate() {
-
+  updateCourse() {
+    this.courses.update(this.lastFirebaseCourseKey, {
+        description: 'Update Test'
+    });
   }
 
-  objUpdate() {
-
+  setLesson() {
+      this.lesson.set({
+          description: 'NEW LESSON'
+      })
   }
 
-  objSet() {
+  updateLesson() {
+    this.lesson.update({
+        description: 'UPDATED LESSON'
+    })
+  }
 
+  removeLesson() {
+      this.lesson.remove();
   }
 }
