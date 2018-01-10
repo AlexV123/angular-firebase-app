@@ -1,10 +1,10 @@
 <h2>All Lessons</h2>
-<h4>Total Lessons: {{lessons?.length}}</h4>
+<h4>Total Lessons: {{(lessons | async)?.length}}</h4>
 <input class="search-bar" placeholder="Search">
 <div class="lessons-list-container v-h-center-block-parent">
   <table class="table lessons-list card card-strong">
     <tbody>
-    <tr *ngFor="let lesson of lessons">
+    <tr *ngFor="let lesson of (lessons | async)">
       <td class="lessons-title">{{ lesson.description }}</td>
       <td class="duration">
         <i class="md-icon duration-icon">access_time</i>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {LessonsService} from "../shared/model/lessons.service";
 import {Lesson} from "../shared/model/lesson";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-home',
@@ -9,17 +10,11 @@ import {Lesson} from "../shared/model/lesson";
 })
 export class HomeComponent implements OnInit {
 
-  lessons: Lesson[];
+  lessons: Observable<Lesson[]>;
   constructor(private lessonsService: LessonsService) { }
 
   ngOnInit() {
-    this.lessonsService.findAllLessons()
-      .do(console.log)
-      .subscribe(
-        lessons => {
-          this.lessons = lessons
-        }
-      );
+    this.lessons = this.lessonsService.findAllLessons().do(console.log);
   }
 
 }
